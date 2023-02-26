@@ -1,0 +1,75 @@
+{
+  "name": "ping-code",
+  "version": "0.0.4",
+  "private": true,
+  "displayName": "ping-code",
+  "description": "Ping VSCode extension by Magicbell",
+  "author": "MagicBell <bot@magicbell.io> (https://www.magicbell.com)",
+  "publisher": "magicbell",
+  "contributors": [
+    "Stephan Meijer <stephan.meijer@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "source": "./src/index.tsx",
+  "main": "dist/extension.js",
+  "engines": {
+    "vscode": "^1.73.0",
+    "node": "^18.9.0"
+  },
+  "sideEffects": false,
+  "files": [
+    "/dist",
+    "/src"
+  ],
+  "homepage": "https://magicbell.com",
+  "keywords": [
+    "magicbell",
+    "notifications",
+    "notification center",
+    "notification inbox",
+    "vscode"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:magicbell-io/magicbell-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/magicbell-io/magicbell-js/issues"
+  },
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "ping-code.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run build && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./dist/test/runTest.js",
+    "clean": "rimraf dist",
+    "dev": "code --extensionDevelopmentPath=${PWD}",
+    "vscode:prepublish": "yarn build",
+    "vscode:package": "yarn vsce package -o dist/ping.vsix --yarn",
+    "vscode:publish": "yarn vsce publish -i dist/ping.vsix --yarn",
+    "vscode:release": "yarn vscode:package && yarn vscode:publish && yarn vscode:release",
+    "vscode:deploy:local": "yarn package && code --install-extension dist/ping.vsix --force"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.34.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5",
+    "@vscode/test-electron": "^2.2.3"
+  }
+}
