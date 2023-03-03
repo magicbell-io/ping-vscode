@@ -41,7 +41,6 @@ function render(context: WebViewContext) {
 function getHTML(context: WebViewContext): string {
   const nonce = getNonce();
   const path = getWebviewUri(context);
-  console.log('path: ', path);
 
   return `<!DOCTYPE html>
     <html lang="en">

@@ -7,6 +7,7 @@ import { commands } from './lib/commands';
 import { createOrShow, register } from './lib/webview';
 
 export function activate(ctx: vscode.ExtensionContext) {
+  console.log('EXEC: ');
   const listView = register(ListView, ctx);
 
   ctx.subscriptions.push(commands.register(commandKeys.DETAIL_PANE, (data) => createOrShow(DetailView, ctx, { data })));
@@ -17,7 +18,7 @@ export function activate(ctx: vscode.ExtensionContext) {
   ctx.subscriptions.push(register(ListDetailView, ctx));
 
   // Hack to have the badges show up from the point VSCode is launched.
-  // commands.showList();
+  commands.showList();
 
   context.init();
 }

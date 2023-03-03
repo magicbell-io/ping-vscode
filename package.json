@@ -100,14 +100,11 @@
     ]
   },
   "scripts": {
-    "build:app": "webpack --config webpack.config.js",
-    "build:ext": "webpack --config webpack.config.ext.js",
-    "build:ext2": "tsc -p ./tsconfig.extension.json",
-    "build": "yarn run build:ext && yarn run build:app",
-    "watch": "tsc -watch -p ./",
+    "build:dev:app": "webpack --env entry=app --config webpack.config.js --mode development",
+    "build:dev:ext": "webpack --env entry=extension --config webpack.config.js --mode development",
+    "build:dev": "yarn run build:dev:ext && yarn run build:dev:app",
     "pretest": "yarn run build && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./dist/test/runTest.js",
     "clean": "rimraf dist",
     "dev": "code --extensionDevelopmentPath=${PWD}",
     "vscode:prepublish": "yarn build",
@@ -137,7 +134,8 @@
     "typescript": "^4.9.5",
     "vsce": "^2.15.0",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "@preact/signals-core": "^1.2.2",
@@ -145,11 +143,17 @@
     "@primer/octicons-react": "^17.9.0",
     "@stitches/react": "^1.2.8",
     "@vscode/webview-ui-toolkit": "^1.1.0",
+    "global": "^4.4.0",
+    "https-browserify": "^1.0.0",
     "magicbell": "1.2.0",
+    "path-browserify": "^1.0.1",
     "pluralize": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
     "use-async-effect": "^2.2.7",
+    "util": "^0.12.5",
     "vsce": "^2.15.0"
   }
 }
