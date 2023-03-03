@@ -1,39 +1,58 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import MagicBell from 'magicbell';
 
-const magicbell = new MagicBell({
-  apiKey: '',
-  apiSecret: '',
-  userExternalId: 'giorgiogross',
-});
+import { BaseView } from './base-view';
+import { commandKeys, viewTypes } from './constants';
+import * as context from './context';
+import { commands } from './lib/commands';
+import { createOrShow, register } from './lib/webview';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export function activate(ctx: vscode.ExtensionContext) {
+  const listView = register(ListView, ctx);
 
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
+  ctx.subscriptions.push(commands.register(commandKeys.DETAIL_PANE, (data) => createOrShow(DetailView, ctx, { data })));
+  // TODO this seems to be handled alredy with command ping.list.focus
+  // ctx.subscriptions.push(commands.register(commandKeys.SHOW_LIST, commands.showList));
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand('ping-code.helloWorld', async () => {
-    // The code you place here will be executed every time your command is executed
-    // Display a message box to the user
+  ctx.subscriptions.push(listView);
+  ctx.subscriptions.push(register(ListDetailView, ctx));
 
-    const list = await magicbell.notifications.list();
-    let title = 'none found';
-    if (list.notifications && list.notifications.length > 0) {
-      title = list.notifications[0].title;
-    }
+  // Hack to have the badges show up from the point VSCode is launched.
+  // commands.showList();
 
-    vscode.window.showInformationMessage(title);
-  });
-
-  context.subscriptions.push(disposable);
+  context.init();
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() { }
+export function deactivate() {
+  // intentionally empty
+}
+
+class ListView extends BaseView {
+  static title = 'Ping';
+  static viewType = viewTypes.LIST;
+
+  unsubNotificationChanges?: () => void;
+
+  resolveWebviewView(view: vscode.WebviewView | vscode.WebviewPanel): void {
+    super.resolveWebviewView(view);
+
+    // Update the badge whenever notifications change.
+    this.unsubNotificationChanges = context.notifications.subscribe((val: Array<any>) => {
+      this.setBadge(val.length);
+    });
+  }
+
+  dispose() {
+    if (this.unsubNotificationChanges) { this.unsubNotificationChanges(); }
+    super.dispose();
+  }
+}
+
+class ListDetailView extends BaseView {
+  static title = 'Ping Detail';
+  static viewType = viewTypes.LIST_DETAIL;
+}
+
+class DetailView extends BaseView {
+  static title = 'Ping';
+  static viewType = viewTypes.DETAIL;
+}

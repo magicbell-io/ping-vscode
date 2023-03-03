@@ -36,17 +36,74 @@
   "bugs": {
     "url": "https://github.com/magicbell-io/magicbell-js/issues"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ping",
+          "title": "Ping",
+          "icon": "public/bell.svg"
+        }
+      ]
+    },
+    "views": {
+      "ping": [
+        {
+          "id": "ping.list",
+          "name": "Notifications",
+          "type": "webview",
+          "initialSize": 4
+        },
+        {
+          "id": "ping.listDetail",
+          "name": "Notification Detail",
+          "type": "webview",
+          "_when": "ping.activeNotification",
+          "initialSize": 1
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "ping-code.helloWorld",
-        "title": "Hello World"
+        "command": "ping.detail",
+        "title": "Show detail of notification",
+        "category": "Ping Detail"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "MagicBell Ping",
+      "properties": {
+        "ping.apiKey": {
+          "type": "string",
+          "description": "The MagicBell API Key to use."
+        },
+        "ping.userHmac": {
+          "type": "string",
+          "description": "The MagicBell (HMAC) User Key to use."
+        },
+        "ping.username": {
+          "type": "string",
+          "description": "Your github username."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "ping.list.focus",
+        "key": "ctrl+alt+p",
+        "mac": "ctrl+alt+p"
       }
     ]
   },
   "scripts": {
-    "build": "tsc -p ./",
+    "build:app": "webpack --config webpack.config.js",
+    "build:ext": "webpack --config webpack.config.ext.js",
+    "build:ext2": "tsc -p ./tsconfig.extension.json",
+    "build": "yarn run build:ext && yarn run build:app",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run build && yarn run lint",
     "lint": "eslint src --ext ts",
@@ -63,17 +120,36 @@
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/pluralize": "^0.0.29",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "@types/vscode": "^1.73.0",
+    "@types/vscode-webview": "^1.57.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "@vscode/test-electron": "^2.2.3",
     "eslint": "^8.34.0",
+    "eslint-plugin-react": "^7.32.2",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
-    "vsce": "^2.15.0"
+    "vsce": "^2.15.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "magicbell": "^1.2.0"
+    "@preact/signals-core": "^1.2.2",
+    "@preact/signals-react": "^1.2.1",
+    "@primer/octicons-react": "^17.9.0",
+    "@stitches/react": "^1.2.8",
+    "@vscode/webview-ui-toolkit": "^1.1.0",
+    "magicbell": "1.2.0",
+    "pluralize": "^8.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "use-async-effect": "^2.2.7",
+    "vsce": "^2.15.0"
   }
 }
