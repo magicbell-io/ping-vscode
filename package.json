@@ -111,7 +111,7 @@
     "vscode:package": "yarn vsce package -o dist/ping.vsix --yarn",
     "vscode:publish": "yarn vsce publish -i dist/ping.vsix --yarn",
     "vscode:release": "yarn vscode:package && yarn vscode:publish",
-    "vscode:deploy:local": "yarn package && code --install-extension dist/ping.vsix --force"
+    "vscode:deploy:local": "yarn vscode:package && code --install-extension dist/ping.vsix --force"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

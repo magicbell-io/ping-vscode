@@ -22,17 +22,14 @@ yarn start
 
 ## Testing the extension
 
-1. Build
+1. Build:
 
 ```sh
-yarn build
+yarn build:dev
 ```
 
-2. Run
-   `cd` into `packages/ping-vscode` and run `yarn dev` to start vscode with this extension installed.
-
+2. Run:
 ```sh
-yarn build
 yarn dev
 ```
 
@@ -48,9 +45,9 @@ It might be necessary to reload the window after changing the configuration.
 
 ## Installing the extension locally
 
-`cd` into `packages/ping-vscode` and run `yarn build && yarn vscode:deploy:local`.
+Run `yarn build && yarn vscode:deploy:local`.
 
 ```sh
-yarn build
+yarn build:dev
 yarn vscode:deploy:local
 ```
