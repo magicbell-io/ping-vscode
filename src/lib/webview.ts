@@ -60,7 +60,7 @@ function getHTML(context: WebViewContext): string {
         <script nonce="${nonce}">
             window.__INITIAL_DATA__ = ${JSON.stringify(context.data || {})};
         </script>
-        <script nonce="${nonce}" src="${path}"></script>
+        <script type="module" nonce="${nonce}" src="${path}"></script>
       </body>
     </html>`;
 }

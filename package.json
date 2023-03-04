@@ -107,10 +107,10 @@
     "lint": "eslint src --ext ts",
     "clean": "rimraf dist",
     "dev": "code --extensionDevelopmentPath=${PWD}",
-    "vscode:prepublish": "yarn build",
+    "vscode:prepublish": "yarn build:dev",
     "vscode:package": "yarn vsce package -o dist/ping.vsix --yarn",
     "vscode:publish": "yarn vsce publish -i dist/ping.vsix --yarn",
-    "vscode:release": "yarn vscode:package && yarn vscode:publish && yarn vscode:release",
+    "vscode:release": "yarn vscode:package && yarn vscode:publish",
     "vscode:deploy:local": "yarn package && code --install-extension dist/ping.vsix --force"
   },
   "devDependencies": {
@@ -148,8 +148,8 @@
     "magicbell": "1.2.0",
     "path-browserify": "^1.0.1",
     "pluralize": "^8.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
     "use-async-effect": "^2.2.7",

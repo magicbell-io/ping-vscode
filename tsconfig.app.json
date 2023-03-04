@@ -10,4 +10,7 @@
     "jest",
     "src/extension.ts"
   ],
+	"compilerOptions": {
+		"module": "ESNext",
+  }
 }

@@ -1,17 +1,17 @@
 {
   "exclude": [
     "./webpack.config.js",
-    "./webpack.config.ext.js",
+    "./webpack.config.extension.js",
+    "./webpack.config.app.js",
     "dist",
   ],
 	"compilerOptions": {
-    "target": "es6",
-		"module": "commonjs",
-    "lib": ["dom", "es6"],
+    "target": "ESNext",
+    "lib": ["dom", "esnext"],
     "outDir": "dist",
     "moduleResolution": "node",
     "allowJs": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
 		"sourceMap": true,
 		"rootDir": "src",
     "esModuleInterop": true,

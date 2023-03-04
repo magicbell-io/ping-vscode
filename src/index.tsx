@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { viewTypes } from './constants';
 import { useWebView } from './lib/hooks';
@@ -27,4 +27,5 @@ function Index() {
   return <View viewType={viewType} data={data} />;
 }
 
-ReactDOM.render(<Index />, document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLElement);
+root.render(<Index />);

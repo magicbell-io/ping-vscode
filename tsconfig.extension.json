@@ -5,5 +5,8 @@
   ],
   "exclude": [
     "src/index.tsx"
-  ]
+  ],
+	"compilerOptions": {
+		"module": "CommonJS",
+  }
 }
