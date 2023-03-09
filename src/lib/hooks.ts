@@ -61,6 +61,7 @@ export function useKeyboardEvent(): [KeyboardEvent, () => void] {
     }
 
     const handleKeyDown: EventListener = (event) => {
+      event.preventDefault();
       if (debounceKeys) {
         return;
       }
@@ -87,7 +88,7 @@ export function useKeyboardEvent(): [KeyboardEvent, () => void] {
   const resetKeyboardEvent = useCallback(() => {
     setKeyboardEvent(null);
     debounceKeys = true;
-    setTimeout(() => debounceKeys = false, 500);
+    setTimeout(() => debounceKeys = false, 200);
   }, []);
 
   return [activeKeyboardEvent, resetKeyboardEvent];
