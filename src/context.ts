@@ -10,12 +10,12 @@ import { NotificationSync } from './notifications/notification-sync';
 
 const config = vscode.workspace.getConfiguration('ping');
 const magicbell = new MagicBell({
-  apiKey: config.get('apiKey') ?? '',
+  apiKey: process.env.MB_API_KEY,
   userExternalId: config.get('username') ?? '',
   userHmac: config.get('userHmac'),
   appInfo: {
     name: 'ping-vscode',
-    // version: __PACKAGE_VERSION__,
+    version: process.env.npm_package_version ?? '0.0.0',
   },
 });
 
