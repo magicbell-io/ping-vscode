@@ -170,12 +170,18 @@ export class WebView implements vscode.WebviewViewProvider {
 
   resolveWebviewView(view: vscode.WebviewView | vscode.WebviewPanel): void {
     this.webview = view.webview;
-    this.#panel = this.#panel ?? view;
 
-    this.webview.options = {
+    const viewOptions = {
       enableScripts: true,
       localResourceRoots: [this.context.extensionUri],
+      retainContextWhenHidden: undefined,
     };
+    if (!this.#panel) {
+      viewOptions.retainContextWhenHidden = true;
+      this.#panel = view;
+    }
+
+    this.webview.options = viewOptions;
 
     // call before render, as rendering might request data from messenger
     this.init(this.webview, this.disposables);

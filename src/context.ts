@@ -48,8 +48,15 @@ export function bindSignals(messenger: Messenger) {
 }
 
 effect(() => {
-  if (!activeNotification.value) {return;}
-  commands.showDetailPane();
+  if (!activeNotification.value) {
+    commands.clearContext(contextKeys.ACTIVE_NOTIFICATION);
+    commands.clearContext('textInputFocus');
+    return;
+  }
+
+  
   commands.setContext(contextKeys.ACTIVE_NOTIFICATION, activeNotification.value);
+  commands.setContext('textInputFocus', true);
+  // commands.showDetailPane(); Intentionally disabled.
   commands.showList();
 });
