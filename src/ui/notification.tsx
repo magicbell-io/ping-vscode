@@ -146,7 +146,7 @@ const CategoryIcons = {
   Unknown: <icons.QuestionIcon size={12} />,
 };
 
-export function Notification(props: {
+const Notification = React.memo(function Notification(props: {
   id: string;
   content: string;
   sent_at: Date;
@@ -216,4 +216,6 @@ export function Notification(props: {
       </div>
     </StyledNotification>
   );
-}
+}, (prev, next) => prev.id === next.id && prev.active === next.active);
+
+export { Notification };
