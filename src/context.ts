@@ -15,7 +15,7 @@ const magicbell = new MagicBell({
   userHmac: config.get('userHmac'),
   appInfo: {
     name: 'ping-vscode',
-    version: process.env.npm_package_version ?? '0.0.0',
+    version: process.env.PING_VERSION,
   },
 });
 

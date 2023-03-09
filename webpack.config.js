@@ -3,6 +3,9 @@
 
 const dotenv = require('dotenv');
 
+var PACKAGE = require('./package.json');
+var pingVersion = PACKAGE.version;
+
 const path = require('path');
 const webpack = require('webpack');
 
@@ -17,7 +20,11 @@ module.exports = (env, argv) => {
   const baseConfig = {
     plugins: [
       new webpack.DefinePlugin({
+        'process.env.PING_VERSION': JSON.stringify(pingVersion),
+        'process.env.NODE_ENV': JSON.stringify(argv.mode),
         'process.env.MB_API_KEY': JSON.stringify(process.env.MB_API_KEY),
+        'process.env.ROLLBAR_ACCESS_TOKEN': JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN),
+        'process.env.ROLLBAR_POST_CLIENT_ITEM_ACCESS_TOKEN': JSON.stringify(process.env.ROLLBAR_POST_CLIENT_ITEM_ACCESS_TOKEN),
       }),
     ],
   }

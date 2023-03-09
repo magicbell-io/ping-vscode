@@ -6,7 +6,11 @@ import * as context from './context';
 import { commands } from './lib/commands';
 import { register } from './lib/webview';
 
+import rollbar from './lib/rollbar';
+
 export function activate(ctx: vscode.ExtensionContext) {
+  // record a generic message and send it to Rollbar
+  rollbar.log('Activated');
   const listView = register(ListView, ctx);
 
   ctx.subscriptions.push(listView);

@@ -50,7 +50,7 @@ function getHTML(context: WebViewContext): string {
         <meta name="theme-color" content="#000000">
         <title>${context.title}</title>
   
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: vscode-webview: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src https://api.rollbar.com/; img-src vscode-resource: vscode-webview: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
       </head>
   
       <body data-view-type="${context.viewType}">

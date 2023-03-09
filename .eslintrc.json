@@ -4,7 +4,8 @@
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "tsx": true
     },
     "ecmaVersion": 6,
     "sourceType": "module"
@@ -16,6 +17,7 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/semi": "warn",
     "curly": "warn",
     "eqeqeq": "warn",
