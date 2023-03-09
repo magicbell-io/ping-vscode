@@ -1,20 +1,15 @@
 import * as vscode from 'vscode';
 
 import { BaseView } from './base-view';
-import { commandKeys, viewTypes } from './constants';
+import { viewTypes } from './constants';
 import * as context from './context';
 import { commands } from './lib/commands';
-import { createOrShow, register } from './lib/webview';
+import { register } from './lib/webview';
 
 export function activate(ctx: vscode.ExtensionContext) {
   const listView = register(ListView, ctx);
 
-  ctx.subscriptions.push(commands.register(commandKeys.DETAIL_PANE, (data) => createOrShow(DetailView, ctx, { data })));
-  // TODO this seems to be handled alredy with command ping.list.focus
-  // ctx.subscriptions.push(commands.register(commandKeys.SHOW_LIST, commands.showList));
-
   ctx.subscriptions.push(listView);
-  ctx.subscriptions.push(register(ListDetailView, ctx));
 
   // Hack to have the badges show up from the point VSCode is launched.
   commands.showList();
@@ -45,14 +40,4 @@ class ListView extends BaseView {
     if (this.unsubNotificationChanges) { this.unsubNotificationChanges(); }
     super.dispose();
   }
-}
-
-class ListDetailView extends BaseView {
-  static title = 'Ping Detail';
-  static viewType = viewTypes.LIST_DETAIL;
-}
-
-class DetailView extends BaseView {
-  static title = 'Ping';
-  static viewType = viewTypes.DETAIL;
 }
