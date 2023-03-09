@@ -56,23 +56,10 @@
           "name": "Notifications",
           "type": "webview",
           "initialSize": 4
-        },
-        {
-          "id": "ping.listDetail",
-          "name": "Notification Detail",
-          "type": "webview",
-          "_when": "ping.activeNotification",
-          "initialSize": 1
         }
       ]
     },
-    "commands": [
-      {
-        "command": "ping.detail",
-        "title": "Show detail of notification",
-        "category": "Ping Detail"
-      }
-    ],
+    "commands": [],
     "configuration": {
       "type": "object",
       "title": "MagicBell Ping",
@@ -100,9 +87,9 @@
     ]
   },
   "scripts": {
-    "build:dev:app": "webpack --env entry=app --config webpack.config.js --mode development",
-    "build:dev:ext": "webpack --env entry=extension --config webpack.config.js --mode development",
-    "build:dev": "yarn run build:dev:ext && yarn run build:dev:app",
+    "build:dev:app": "webpack --watch --env entry=app --config webpack.config.js --mode development",
+    "build:dev:ext": "webpack --watch --env entry=extension --config webpack.config.js --mode development",
+    "build:dev": "yarn run build:dev:ext & yarn run build:dev:app",
     "pretest": "yarn run build && yarn run lint",
     "lint": "eslint src --ext ts",
     "clean": "rimraf dist",

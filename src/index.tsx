@@ -4,16 +4,12 @@ import { createRoot } from 'react-dom/client';
 import { viewTypes } from './constants';
 import { useWebView } from './lib/hooks';
 import { globalStyles } from './ui/stitches';
-import { Detail } from './views/detail';
 import { List } from './views/list';
-import { ListDetail } from './views/list-detail';
 
 globalStyles();
 
 const views = {
   [viewTypes.LIST]: List,
-  [viewTypes.LIST_DETAIL]: ListDetail,
-  [viewTypes.DETAIL]: Detail,
 };
 
 function NotFound({ viewType }: { viewType: string }) {
@@ -23,6 +19,7 @@ function NotFound({ viewType }: { viewType: string }) {
 function Index() {
   const { viewType, data } = useWebView();
 
+  console.log('using view type ', viewType);
   const View = views[viewType ?? ''] || NotFound;
   return <View viewType={viewType} data={data} />;
 }

@@ -2,7 +2,7 @@ import { VSCodeDataGrid, VSCodeDataGridCell, VSCodeDataGridRow } from '@vscode/w
 import * as React from 'react';
 
 import { signalKeys } from '../constants';
-import { useKeydown as useKeylogger, useRemoteSignal } from '../lib/hooks';
+import { useKeyboardEvent, useRemoteSignal } from '../lib/hooks';
 import { useShortcuts } from '../lib/shortcut-hooks';
 import { Notification } from '../ui/notification';
 
@@ -32,8 +32,9 @@ function getOwnerAvatarUrl(notification) {
   }
 }
 
-export function List() {
-  const [activeKeys, resetActiveKeys] = useKeylogger();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function List(_: any) {
+  const [activeKeyboardEvent, resetKeyboardEvent] = useKeyboardEvent();
   const [active, setActive] = useRemoteSignal(signalKeys.ACTIVE_NOTIFICATION);
   const [selectedNoteIds, updateSelectedIds] = React.useState<Array<string>>([]);
   const [notifications] = useRemoteSignal<Array<any>>(signalKeys.NOTIFICATIONS);
@@ -41,7 +42,7 @@ export function List() {
   const getNoteById = (id: string) => notifications!.find((n) => n.id === id);
 
   const select = (ids: Array<string>) => {
-    resetActiveKeys();
+    resetKeyboardEvent();
     if (ids.length === 0) {
       setActive(null);
       updateSelectedIds([]);
@@ -59,7 +60,7 @@ export function List() {
     updateSelectedIds(ids);
   };
 
-  useShortcuts(activeKeys, selectedNoteIds, select);
+  useShortcuts(activeKeyboardEvent, selectedNoteIds, select);
   return (
     <div>
       <VSCodeDataGrid>
