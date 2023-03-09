@@ -50,25 +50,31 @@ export function useWebView() {
 
 type EventListener = (ev: KeyboardEvent) => any;
 
-export function useKeydown(): [Array<string>, () => void] {
-  const [activeKeys, setActiveKeys] = React.useState<Array<string>>([]);
+let debounceKeys = false;
+
+export function useKeyboardEvent(): [KeyboardEvent, () => void] {
+  const [activeKeyboardEvent, setKeyboardEvent] = React.useState<KeyboardEvent>(null);
 
   useEffect(() => {
     if (!window || !window.addEventListener) {
       return;
     }
 
-    const handleKeyDown: EventListener = ({ key }) => {
-      if (!activeKeys.includes(key)) {
-        setActiveKeys([key, ...activeKeys]);
+    const handleKeyDown: EventListener = (event) => {
+      if (debounceKeys) {
+        return;
       }
+
+      event.stopPropagation();
+
+      setKeyboardEvent(event);
     };
     const handleKeyUp: EventListener = () => {
       // Clear all active keys on any key up.
-      setActiveKeys([]);
+      setKeyboardEvent(null);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown, true);
     window.addEventListener('keyup', handleKeyUp);
 
     // Remove event listener on cleanup
@@ -76,11 +82,13 @@ export function useKeydown(): [Array<string>, () => void] {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [activeKeys]);
+  }, [activeKeyboardEvent]);
 
-  const resetKeys = useCallback(() => {
-    setActiveKeys([]);
+  const resetKeyboardEvent = useCallback(() => {
+    setKeyboardEvent(null);
+    debounceKeys = true;
+    setTimeout(() => debounceKeys = false, 500);
   }, []);
 
-  return [activeKeys, resetKeys];
+  return [activeKeyboardEvent, resetKeyboardEvent];
 }

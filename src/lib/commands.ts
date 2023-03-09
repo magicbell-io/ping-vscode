@@ -23,6 +23,5 @@ export const commands = {
 
   showList() {
     vscode.commands.executeCommand('ping.list.focus');
-    vscode.commands.executeCommand('setContext', 'textInputFocus', true);
   },
 };
