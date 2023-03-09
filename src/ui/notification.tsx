@@ -156,6 +156,7 @@ const Notification = React.memo(function Notification(props: {
   avatarUrl: string;
   category?: string;
   actionUrl: string;
+  noteRef: any;
 }) {
   const messenger = useMessenger();
 
@@ -189,7 +190,7 @@ const Notification = React.memo(function Notification(props: {
         </div>
       )}
 
-      <div className="content">
+      <div className="content" ref={props.noteRef}>
         <div className="header">
           <div className="title truncate">{props.title}</div>
           <div className="time">{formatDate(props.sent_at)}</div>

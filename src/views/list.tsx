@@ -39,6 +39,18 @@ export function List(_: any) {
   const [selectedNoteIds, updateSelectedIds] = React.useState<Array<string>>([]);
   const [notifications] = useRemoteSignal<Array<any>>(signalKeys.NOTIFICATIONS);
 
+  const [notificationRefs, setElRefs] = React.useState<Map<string, any>>(new Map());
+
+  React.useEffect(() => {
+    setElRefs((elRefs) => {
+      return notifications?.reduce((acc, value) => {
+        acc[value.id] = elRefs[value.id] ?? React.createRef();
+        return acc;
+      }, new Map()) ?? new Map();
+    });
+  }, [notifications]);
+
+
   const getNoteById = (id: string) => notifications!.find((n) => n.id === id);
 
   const select = (ids: Array<string>) => {
@@ -58,29 +70,35 @@ export function List(_: any) {
     setActive(getNoteById(ids[0]));
     // Add the whole range to the selection.
     updateSelectedIds(ids);
+
+    notificationRefs[ids[0]]?.current?.scrollIntoView({
+      behavior: 'auto',
+      block: 'start',
+    });
   };
 
   useShortcuts(activeKeyboardEvent, selectedNoteIds, select);
   return (
     <div>
       <VSCodeDataGrid>
-        {notifications?.map((notification, idx) => (
-          <VSCodeDataGridRow key={notification.id}>
-            <VSCodeDataGridCell gridColumn="1">
-              <Notification
-                id={notification.id}
-                actionUrl={notification.action_url}
-                avatarUrl={getOwnerAvatarUrl(notification)}
-                active={active?.id === notification.id || selectedNoteIds.includes(notification.id)}
-                title={getTitle(notification)}
-                sent_at={getSentDate(notification)}
-                content={notification.title}
-                onClick={() => select([notifications[idx].id])}
-                category={notification.category}
-              />
-            </VSCodeDataGridCell>
-          </VSCodeDataGridRow>
-        ))}
+        {notifications?.map((notification, idx) => {
+          return <VSCodeDataGridRow key={notification.id}>
+              <VSCodeDataGridCell gridColumn="1">
+                <div ref={notificationRefs[notification.id]}><Notification
+                  noteRef={null}
+                  id={notification.id}
+                  actionUrl={notification.action_url}
+                  avatarUrl={getOwnerAvatarUrl(notification)}
+                  active={active?.id === notification.id || selectedNoteIds.includes(notification.id)}
+                  title={getTitle(notification)}
+                  sent_at={getSentDate(notification)}
+                  content={notification.title}
+                  onClick={() => select([notifications[idx].id])}
+                  category={notification.category}
+                /></div>
+              </VSCodeDataGridCell>
+            </VSCodeDataGridRow>;
+        })}
       </VSCodeDataGrid>
     </div>
   );

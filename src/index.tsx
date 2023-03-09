@@ -19,7 +19,6 @@ function NotFound({ viewType }: { viewType: string }) {
 function Index() {
   const { viewType, data } = useWebView();
 
-  console.log('using view type ', viewType);
   const View = views[viewType ?? ''] || NotFound;
   return <View viewType={viewType} data={data} />;
 }
