@@ -87,9 +87,10 @@
     ]
   },
   "scripts": {
-    "build:dev:app": "webpack --watch --env entry=app --config webpack.config.js --mode development",
-    "build:dev:ext": "webpack --watch --env entry=extension --config webpack.config.js --mode development",
+    "build:dev:app": "webpack --env entry=app --config webpack.config.js --mode development",
+    "build:dev:ext": "webpack --env entry=extension --config webpack.config.js --mode development",
     "build:dev": "yarn run build:dev:ext & yarn run build:dev:app",
+    "watch:dev": "yarn run build:dev:ext --watch & yarn run build:dev:app --watch",
     "pretest": "yarn run build && yarn run lint",
     "lint": "eslint src --ext ts",
     "clean": "rimraf dist",
@@ -130,6 +131,7 @@
     "@primer/octicons-react": "^17.9.0",
     "@stitches/react": "^1.2.8",
     "@vscode/webview-ui-toolkit": "^1.1.0",
+    "dotenv": "^16.0.3",
     "global": "^4.4.0",
     "https-browserify": "^1.0.0",
     "magicbell": "1.2.0",
