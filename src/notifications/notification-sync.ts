@@ -32,7 +32,7 @@ export class NotificationSync {
     });
 
     // Reschedule pull.
-    setTimeout(this.pull.bind(this), 10000);
+    setTimeout(this.pull.bind(this), 2 * 60 * 1000);
 
     if (!isFirstPull || !count) {
       return;
