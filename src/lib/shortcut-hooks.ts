@@ -9,8 +9,10 @@ export function useShortcuts(
   activeKeyboardEvent: KeyboardEvent | null,
   selectedNoteIds: Array<string>,
   select: (notes: Array<string>) => void,
+  consumeKeyboardEvent: () => void,
 ) {
   const [notifications] = useRemoteSignal<Array<any>>(signalKeys.NOTIFICATIONS);
+  consumeKeyboardEvent();
 
   if (activeKeyboardEvent === null) {
     return;

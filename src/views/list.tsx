@@ -54,7 +54,6 @@ export function List(_: any) {
   const getNoteById = (id: string) => notifications!.find((n) => n.id === id);
 
   const select = (ids: Array<string>) => {
-    resetKeyboardEvent();
     if (ids.length === 0) {
       setActive(null);
       updateSelectedIds([]);
@@ -77,7 +76,7 @@ export function List(_: any) {
     });
   };
 
-  useShortcuts(activeKeyboardEvent, selectedNoteIds, select);
+  useShortcuts(activeKeyboardEvent, selectedNoteIds, select, resetKeyboardEvent);
   return (
     <div>
       <VSCodeDataGrid>
