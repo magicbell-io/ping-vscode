@@ -146,7 +146,7 @@ const CategoryIcons = {
   Unknown: <icons.QuestionIcon size={12} />,
 };
 
-export function Notification(props: {
+const Notification = React.memo(function Notification(props: {
   id: string;
   content: string;
   sent_at: Date;
@@ -156,6 +156,7 @@ export function Notification(props: {
   avatarUrl: string;
   category?: string;
   actionUrl: string;
+  noteRef: any;
 }) {
   const messenger = useMessenger();
 
@@ -189,7 +190,7 @@ export function Notification(props: {
         </div>
       )}
 
-      <div className="content">
+      <div className="content" ref={props.noteRef}>
         <div className="header">
           <div className="title truncate">{props.title}</div>
           <div className="time">{formatDate(props.sent_at)}</div>
@@ -216,4 +217,6 @@ export function Notification(props: {
       </div>
     </StyledNotification>
   );
-}
+}, (prev, next) => prev.id === next.id && prev.active === next.active);
+
+export { Notification };

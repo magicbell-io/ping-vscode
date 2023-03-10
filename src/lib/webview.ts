@@ -50,7 +50,7 @@ function getHTML(context: WebViewContext): string {
         <meta name="theme-color" content="#000000">
         <title>${context.title}</title>
   
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: vscode-webview: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src https://api.rollbar.com/; img-src vscode-resource: vscode-webview: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
       </head>
   
       <body data-view-type="${context.viewType}">
@@ -170,12 +170,18 @@ export class WebView implements vscode.WebviewViewProvider {
 
   resolveWebviewView(view: vscode.WebviewView | vscode.WebviewPanel): void {
     this.webview = view.webview;
-    this.#panel = this.#panel ?? view;
 
-    this.webview.options = {
+    const viewOptions = {
       enableScripts: true,
       localResourceRoots: [this.context.extensionUri],
+      retainContextWhenHidden: undefined,
     };
+    if (!this.#panel) {
+      viewOptions.retainContextWhenHidden = true;
+      this.#panel = view;
+    }
+
+    this.webview.options = viewOptions;
 
     // call before render, as rendering might request data from messenger
     this.init(this.webview, this.disposables);

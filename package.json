@@ -56,23 +56,10 @@
           "name": "Notifications",
           "type": "webview",
           "initialSize": 4
-        },
-        {
-          "id": "ping.listDetail",
-          "name": "Notification Detail",
-          "type": "webview",
-          "_when": "ping.activeNotification",
-          "initialSize": 1
         }
       ]
     },
-    "commands": [
-      {
-        "command": "ping.detail",
-        "title": "Show detail of notification",
-        "category": "Ping Detail"
-      }
-    ],
+    "commands": [],
     "configuration": {
       "type": "object",
       "title": "MagicBell Ping",
@@ -102,7 +89,8 @@
   "scripts": {
     "build:dev:app": "webpack --env entry=app --config webpack.config.js --mode development",
     "build:dev:ext": "webpack --env entry=extension --config webpack.config.js --mode development",
-    "build:dev": "yarn run build:dev:ext && yarn run build:dev:app",
+    "build:dev": "yarn run build:dev:ext & yarn run build:dev:app",
+    "watch:dev": "yarn run build:dev:ext --watch & yarn run build:dev:app --watch",
     "pretest": "yarn run build && yarn run lint",
     "lint": "eslint src --ext ts",
     "clean": "rimraf dist",
@@ -141,8 +129,10 @@
     "@preact/signals-core": "^1.2.2",
     "@preact/signals-react": "^1.2.1",
     "@primer/octicons-react": "^17.9.0",
+    "@rollbar/react": "^0.11.1",
     "@stitches/react": "^1.2.8",
     "@vscode/webview-ui-toolkit": "^1.1.0",
+    "dotenv": "^16.0.3",
     "global": "^4.4.0",
     "https-browserify": "^1.0.0",
     "magicbell": "1.2.0",
@@ -150,6 +140,7 @@
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollbar": "^2.26.1",
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
     "use-async-effect": "^2.2.7",

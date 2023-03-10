@@ -10,12 +10,12 @@ import { NotificationSync } from './notifications/notification-sync';
 
 const config = vscode.workspace.getConfiguration('ping');
 const magicbell = new MagicBell({
-  apiKey: config.get('apiKey') ?? '',
+  apiKey: process.env.MB_API_KEY,
   userExternalId: config.get('username') ?? '',
   userHmac: config.get('userHmac'),
   appInfo: {
     name: 'ping-vscode',
-    // version: __PACKAGE_VERSION__,
+    version: process.env.PING_VERSION,
   },
 });
 
@@ -48,8 +48,15 @@ export function bindSignals(messenger: Messenger) {
 }
 
 effect(() => {
-  if (!activeNotification.value) {return;}
-  commands.showDetailPane();
+  if (!activeNotification.value) {
+    commands.clearContext(contextKeys.ACTIVE_NOTIFICATION);
+    commands.clearContext('textInputFocus');
+    return;
+  }
+
+  
   commands.setContext(contextKeys.ACTIVE_NOTIFICATION, activeNotification.value);
+  commands.setContext('textInputFocus', true);
+  // commands.showDetailPane(); Intentionally disabled.
   commands.showList();
 });

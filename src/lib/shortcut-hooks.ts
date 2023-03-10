@@ -6,11 +6,15 @@ import { Messenger } from './messenger';
 const messenger = new Messenger(code);
 
 export function useShortcuts(
-  activeKeys: Array<string>,
+  activeKeyboardEvent: KeyboardEvent | null,
   selectedNoteIds: Array<string>,
   select: (notes: Array<string>) => void,
 ) {
   const [notifications] = useRemoteSignal<Array<any>>(signalKeys.NOTIFICATIONS);
+
+  if (activeKeyboardEvent === null) {
+    return;
+  }
 
   function limMin(idx: number) {
     return Math.max(idx, 0);
@@ -38,11 +42,12 @@ export function useShortcuts(
     return notifications.findIndex((n) => n.id === selectedNoteIds.slice(-1).pop());
   }
 
-  // console.log('key: ', key, active);
   const firstSelectedNoteIdx = getFirstCurrentlySelectedIdx();
   const lastSelectedNoteIdx = getLastCurrentlySelectedIdx();
 
-  if (activeKeys.includes('a') && activeKeys.includes('Meta')) {
+  const metaKeyPressed = (activeKeyboardEvent.metaKey || activeKeyboardEvent.ctrlKey);
+
+  if (activeKeyboardEvent.key === 'a' && metaKeyPressed) {
     if (notifications.length === 0) {
       return;
     }
@@ -50,10 +55,10 @@ export function useShortcuts(
     select(notifications.map((n) => n.id));
     return;
   }
-  if (activeKeys.includes('Escape')) {
+  if (activeKeyboardEvent.key === 'Escape') {
     select([]);
   }
-  if (activeKeys.includes('ArrowDown')) {
+  if (activeKeyboardEvent.key === 'ArrowDown') {
     if (notifications.length === 0) {
       return;
     }
@@ -65,7 +70,7 @@ export function useShortcuts(
     }
     select([notifications[limMax(firstSelectedNoteIdx + 1)].id]);
   }
-  if (activeKeys.includes('ArrowUp')) {
+  if (activeKeyboardEvent.key === 'ArrowUp') {
     if (notifications.length === 0) {
       return;
     }
@@ -77,14 +82,14 @@ export function useShortcuts(
     }
     select([notifications[limMin(firstSelectedNoteIdx - 1)].id]);
   }
-  if (activeKeys.includes('Enter')) {
+  if (activeKeyboardEvent.key === 'Enter') {
     if (selectedNoteIds.length === 0) {
       return;
     }
     const note = getNotificationById(selectedNoteIds[0]);
     messenger.post('open-url', note.action_url);
   }
-  if (activeKeys.includes('e') && activeKeys.includes('Meta')) {
+  if (activeKeyboardEvent.key === 'e' && metaKeyPressed) {
     const archivableIds = [...selectedNoteIds];
     // Try to select the next element already before archiving the old ones.
     let nextId = lastSelectedNoteIdx + 1;

@@ -13,7 +13,7 @@ Show GitHub notifications in VSCode.
 
 ## Setup & Development
 
-Run `yarn` in the repo root to install all dependencies, and `yarn start` in to start all package builders in watch mode.
+To run Ping, you'll need to create a `.env.development` file and fill in the fields as demonstrated in the empty `.env`. Then, run `yarn` in the repo root to install all dependencies, and `yarn start` in to start all package builders in watch mode.
 
 ```sh
 yarn
