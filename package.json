@@ -1,6 +1,6 @@
 {
   "name": "ping-code",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "displayName": "ping-code",
   "description": "Ping VSCode extension by Magicbell",
